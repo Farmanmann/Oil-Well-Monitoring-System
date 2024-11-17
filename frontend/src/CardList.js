@@ -58,9 +58,9 @@ const CardList = () => {
           </div>
           <div className="card-values">
             <p><strong>{card.name}</strong></p>
-            <p>Value 1: {card.value1}</p>
-            <p>Value 2: {card.value2}</p>
-            <p>Value 3: {card.value3}</p>
+            <p>Gas Injection: {card.value1}</p>
+            <p>Set Point: {card.value2}</p>
+            <p>Valve Open: {card.value3.toFixed(2)}</p>
           </div>
         </div>
       ))}

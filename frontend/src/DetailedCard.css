@@ -1,47 +1,46 @@
 /* Centering the container on the page */
 .card-detail-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 100px); /* Subtract header height */
-    padding-top: 100px; /* Ensure some space from the header */
-    background-color: #f5f5f527;
-  }
-  
-  /* Styling the card */
-  .card-detail {
-    background-color: #ffffff74;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 500px;
-    text-align: center;
-  }
-  
-  /* Styling for each card value */
-  .card-info {
-    margin: 20px 0;
-  }
-  
-  .card-item {
-    margin: 10px 0;
-    font-size: 18px;
-    color: #000000;
-  }
-  
-  /* Styling for the Back button */
-  .back-button {
-    background-color: #0912c4;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .back-button:hover {
-    background-color: #272928;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px); /* Subtract header height */
+  padding-top: 100px; /* Ensure some space from the header */
+  background-color: #f5f5f527;
+}
+
+/* Styling the card */
+.card-detail {
+  background-color: #ffffff74;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Styling for each card value */
+.card-info {
+  margin: 20px 0;
+}
+
+.card-item {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #000000;
+}
+
+/* Styling for the Back button */
+.back-button {
+  background-color: #0912c4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-button:hover {
+  background-color: #272928;
+}

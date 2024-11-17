@@ -39,13 +39,13 @@ const DetailedCard = () => {
               <strong>Percentage:</strong> {card.percentage}%
             </div>
             <div className="card-item">
-              <strong>Value 1:</strong> {card.value1}
+              <strong>Gas Injected:</strong> {card.value1}
             </div>
             <div className="card-item">
-              <strong>Value 2:</strong> {card.value2}
+              <strong>Set Point:</strong> {card.value2}
             </div>
             <div className="card-item">
-              <strong>Value 3:</strong> {card.value3}
+              <strong>Valve Open:</strong> {card.value3.toFixed(2)}
             </div>
           </div>
           <button className="back-button" onClick={() => navigate("/")}>Back</button>

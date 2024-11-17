@@ -24,7 +24,7 @@ body {
   display: flex; /* Align circle and values horizontally */
   justify-content: flex-start; /* Align items to the start (left) */
   align-items: center; /* Vertically center the content */
-  border: 2px solid rgba(255, 0, 0, 0.6); /* Softer red border */
+  border: 2px solid rgba(40, 147, 11, 0.6); /* Softer red border */
   border-radius: 12px; /* Rounded edges */
   padding: 16px;
   width: calc(100% - 20px); /* Reduce width by 20px */
