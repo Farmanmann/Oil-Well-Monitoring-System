@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useParams
-import "./DetailedCard.css"; // Import updated CSS for styling
+import { useParams, useNavigate } from "react-router-dom";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import "./DetailedCard.css";
 
 const DetailedCard = () => {
-  const { id } = useParams(); // Get the id from the URL
+  const { id } = useParams();
   const [card, setCard] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate loading card data based on id
     const fetchCardData = async () => {
       const allCards = [
         { id: 1, name: "COURAGEOUS", percentage: 75, value1: 123, value2: 456, value3: 789 },
@@ -21,38 +22,83 @@ const DetailedCard = () => {
         { id: 8, name: "VALIANT", percentage: 85, value1: 111, value2: 999, value3: 222 },
         { id: 9, name: "DAUNTLESS", percentage: 95, value1: 777, value2: 555, value3: 333 },
       ];
-
-      const cardDetails = allCards.find((card) => card.id === parseInt(id)); // Find the card by id
+      const cardDetails = allCards.find((card) => card.id === parseInt(id));
       setCard(cardDetails);
     };
-
     fetchCardData();
   }, [id]);
 
+  if (!card) {
+    return (
+      <div className="card-detail-container">
+        <div className="card-detail">
+          <p style={{ color: '#e0e0e0' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const getStatusColor = (percentage) => {
+    if (percentage >= 80) return '#4CAF50';  // Green
+    if (percentage >= 60) return '#FFC107';  // Yellow
+    return '#f44336';  // Red
+  };
+
+  const getStatusText = (percentage) => {
+    if (percentage >= 80) return 'Optimal';
+    if (percentage >= 60) return 'Warning';
+    return 'Critical';
+  };
+
   return (
     <div className="card-detail-container">
-      {card ? (
-        <div className="card-detail">
-          <h2>{card.name} Details</h2>
-          <div className="card-info">
-            <div className="card-item">
-              <strong>Percentage:</strong> {card.percentage}%
-            </div>
-            <div className="card-item">
-              <strong>Gas Injected:</strong> {card.value1}
-            </div>
-            <div className="card-item">
-              <strong>Set Point:</strong> {card.value2}
-            </div>
-            <div className="card-item">
-              <strong>Valve Open:</strong> {card.value3.toFixed(2)}
-            </div>
+      <div className="card-detail">
+        <div className="header-row">
+          <h2 className="card-title">{card.name} Details</h2>
+          <div 
+            className="status-indicator"
+            style={{ backgroundColor: getStatusColor(card.percentage) }}
+          >
+            {getStatusText(card.percentage)}
           </div>
-          <button className="back-button" onClick={() => navigate("/")}>Back</button>
         </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+        
+        <div className="info-box percentage">
+          <div style={{ width: '120px', margin: '0 auto' }}>
+            <CircularProgressbar
+              value={card.percentage}
+              text={`${card.percentage}%`}
+              styles={buildStyles({
+                textSize: '16px',
+                pathColor: `rgba(62, 152, 199, ${card.percentage / 100})`,
+                textColor: '#e0e0e0',
+                trailColor: '#333',
+              })}
+            />
+          </div>
+        </div>
+
+        <div className="card-info">
+          <div className="info-box">
+            <div className="info-label">Gas Injection</div>
+            <div className="info-value">{card.value1}</div>
+          </div>
+          
+          <div className="info-box">
+            <div className="info-label">Set Point</div>
+            <div className="info-value">{card.value2}</div>
+          </div>
+          
+          <div className="info-box">
+            <div className="info-label">Valve Open</div>
+            <div className="info-value">{card.value3.toFixed(2)}%</div>
+          </div>
+        </div>
+
+        <button className="back-button" onClick={() => navigate("/")}>
+          Back to Dashboard
+        </button>
+      </div>
     </div>
   );
 };

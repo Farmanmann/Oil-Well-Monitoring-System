@@ -31,7 +31,7 @@ class OilWellMonitor:
         """Load all CSV files and initialize well status."""
         for filename in os.listdir(self.csv_folder):
             if filename.endswith('.csv'):
-                well_id = filename.replace('.csv', '')
+                well_id = filename.replace('.csv', '').split('-')[0]
                 df = pd.read_csv(os.path.join(self.csv_folder, filename))
                 df.columns = ['Time', 'InstantVol', 'SetVol', 'Nozzle']
                 # df['Time'] = str(pd.to_datetime(df['Time'],
@@ -69,29 +69,28 @@ class OilWellMonitor:
                 has_data = True
                 row_data = df.iloc[well.current_row].to_dict()
                 
-                # Update well data
                 for key, value in row_data.items():
                         
-                    # Handle null values
+                    # Null handling
                     if key != 'Time':
                         if pd.isna(value):
                             value = well.last_valid_values.get(key, 0)
                         else:
                             well.last_valid_values[key] = value
                     
-                    # Update current values and history
                     well.current_values[key] = value
                     well.historical_values[key] = (well.historical_values[key] + [value])[-100:]
                     
-                    # Check if value is less than 30% of baseline
                     baseline = well.baseline_values.get(key, 0)
-                    if key == 'InstantVol':
-                        well.status_checks[key] = value < (0.3 * baseline) if baseline else False
-                    elif key == 'Nozzle':
-                        well.status_checks[key] = value > 80 if baseline else False
-                    else:
-                        key == 'False'
+
                 
+                baseline = well.baseline_values.get('InstantVol', 0)
+                well.status_checks['InstantVol'] = value > (0.3 * baseline) if baseline else False
+                well.status_checks['Nozzle'] = value < 80 if baseline else False
+
+                if well.current_values['SetVol'] != 0:
+                    well.status_checks['pct_warn'] = (well.current_values['InstantVol'] / well.current_values['SetVol']) < 0.7 if baseline else False
+                    well.status_checks['pct_danger'] = (well.current_values['InstantVol'] / well.current_values['SetVol']) < 0.3 if baseline else False
                 well.current_row += 1
         
         return has_data
@@ -101,14 +100,13 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Modify for production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Initialize monitor
-monitor = OilWellMonitor("./wells")  # Replace with actual path
+monitor = OilWellMonitor("./wells") 
 
 @app.get("/wells")
 async def get_wells():
@@ -121,7 +119,6 @@ async def get_wells():
                     "current_values": well.current_values,
                     "historical_values": well.historical_values,
                     "status_checks": well.status_checks,
-                    "Time": datetime.now().isoformat()
                 }
                 for well_id, well in monitor.wells.items()
             }

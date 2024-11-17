@@ -7,13 +7,13 @@ body {
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Card list container with margin-top to push below the fixed header */
+/* Card list container with grid layout */
 .card-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Flexible grid */
   gap: 20px; /* Space between cards */
   padding: 20px;
-  margin-top: 100px; /* Space the cards below the header */
+  margin-top: 100px; /* Space between the header and the cards */
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
@@ -21,42 +21,44 @@ body {
 
 /* Individual card styles */
 .card {
-  display: flex; /* Align circle and values horizontally */
-  justify-content: flex-start; /* Align items to the start (left) */
-  align-items: center; /* Vertically center the content */
-  border: 2px solid rgba(40, 147, 11, 0.6); /* Softer red border */
-  border-radius: 12px; /* Rounded edges */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border: 2px solid rgba(40, 147, 11, 0.6);
+  border-radius: 12px;
   padding: 16px;
-  width: calc(100% - 20px); /* Reduce width by 20px */
-  height: 200px; /* Fixed height */
-  background-color: #1e1e1e; /* Dark card background */
+  background-color: #1e1e1e;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Softer shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
-  box-sizing: border-box;
-  margin: 0 auto; /* Center the card */
+  margin: 0 auto;
+  overflow: hidden;
+  height: 450px; /* Increased height to make the card long */
 }
 
 /* Hover effect for the cards */
 .card:hover {
   transform: scale(1.02);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6); /* Slightly more shadow on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
 }
 
 /* Progress bar container */
 .card .progress-bar-container {
-  width: 100px; /* Fixed size for the progress circle */
-  height: 100px; /* Fixed height */
-  margin-right: 20px; /* Space between circle and values */
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
 }
 
 /* Text styles inside the card */
 .card .card-values {
   display: flex;
-  flex-direction: column; /* Stack values vertically */
-  justify-content: center;
-  color: #e0e0e0; /* Light text color */
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: #e0e0e0;
+  flex-grow: 1; /* Allow content to take remaining space */
 }
 
 /* Style for the text in each card */
@@ -65,7 +67,54 @@ body {
   font-size: 14px;
 }
 
-/* Bold text for the name */
-.card .card-values p strong {
-  font-weight: bold;
+/* Style for value buttons */
+.value-button {
+  background-color: #333;
+  color: #e0e0e0;
+  border: none;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  width: 200px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.value-button:hover {
+  background-color: #5bc0de;
+}
+
+/* Warning and Danger status button */
+.status-button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: white;
+  background-color: #5bc0de; /* Default blue for normal */
+  transition: background-color 0.3s ease;
+  margin-top: 12px; /* Space between values and the button */
+}
+
+.status-button.warning {
+  background-color: #f0ad4e; /* Yellow for warning */
+}
+
+.status-button.danger {
+  background-color: #d9534f; /* Red for danger */
+}
+
+.status-button.default {
+  background-color: #5bc0de; /* Blue for default */
+}
+
+.status-button:hover {
+  background-color: #bba23b; /* Darken color on hover */
+}
+
+/* Adjust status button visibility */
+.status-button {
+  width: 100%; /* Make button fill the width of its container */
 }

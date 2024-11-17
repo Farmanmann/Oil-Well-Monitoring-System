@@ -1,49 +1,77 @@
 import React, { useState, useEffect } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "react-circular-progressbar/dist/styles.css";
 import "./CardList.css"; // Import the updated CSS file
 
 const CardList = () => {
-  const [cardsData, setCardsData] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [wellInfo, setWellInfo] = useState({});
+  const [selectedWell, setSelectedWell] = useState(null);
+  const [historicalData, setHistoricalData] = useState({});
 
-  // Simulate loading data from multiple CSV files
   useEffect(() => {
-    const loadCSVFiles = async () => {
-      // Replace with actual logic to load and parse CSV files
-      const csvFiles = [
-        { id: 1, name: "COURAGEOUS", percentage: 75, value1: 123, value2: 456, value3: 789 },
-        { id: 2, name: "FEARLESS", percentage: 50, value1: 321, value2: 654, value3: 987 },
-        { id: 3, name: "GALLANT", percentage: 90, value1: 111, value2: 222, value3: 333 },
-        { id: 4, name: "NOBLE", percentage: 60, value1: 234, value2: 567, value3: 890 },
-        { id: 5, name: "RESOLUTE", percentage: 80, value1: 432, value2: 876, value3: 543 },
-        { id: 6, name: "RUTHLESS", percentage: 40, value1: 543, value2: 210, value3: 678 },
-        { id: 7, name: "STEADFAST", percentage: 70, value1: 654, value2: 321, value3: 987 },
-        { id: 8, name: "VALIANT", percentage: 85, value1: 111, value2: 999, value3: 222 },
-        { id: 9, name: "DAUNTLESS", percentage: 95, value1: 777, value2: 555, value3: 333 },
-      ];
+    const eventSource = new EventSource("http://127.0.0.1:8000/wells");
+    eventSource.onopen = () => console.log(">>> Connection opened!");
+    eventSource.onerror = (e) => console.log("ERROR!", e);
 
-      // Simulate asynchronous data fetching
-      setCardsData(csvFiles);
+    eventSource.onmessage = (event) => {
+      const newData = JSON.parse(event.data);
+      console.log("NewData:", newData);
+
+      setWellInfo((prevData) => ({
+        ...prevData,
+        ...Object.fromEntries(
+          Object.entries(newData).map(([well, data]) => [well, data])
+        ),
+      }));
+
+      setHistoricalData((prevHistory) => {
+        const newHistory = { ...prevHistory };
+        Object.entries(newData).forEach(([well, data]) => {
+          if (!newHistory[well]) {
+            newHistory[well] = [];
+          }
+          newHistory[well] = [...newHistory[well], { ...data }].slice(-20);
+        });
+        return newHistory;
+      });
     };
 
-    loadCSVFiles();
+    return () => {
+      eventSource.close();
+    };
   }, []);
 
+  const wellData = Object.entries(wellInfo).map(([well, data]) => ({
+    id: well,
+    name: well,
+    percentage: (
+      (data.current_values.InstantVol / data.current_values.SetVol) *
+      100
+    ).toFixed(1),
+    value1: data.current_values.InstantVol,
+    value2: data.current_values.SetVol,
+    value3: data.current_values.Nozzle,
+    status_nozzle: data.status_checks.Nozzle,
+    status_pct_warn: data.status_checks.pct_warn,
+    status_pct_danger: data.status_checks.pct_danger,
+    time: data.current_values.Time,
+  }));
+
+  const getStatusClass = (warning, danger) => {
+    if (danger) return "danger";
+    if (warning) return "warning";
+    return "default"; // default blue
+  };
+
   const handleClick = (card) => {
-    // Navigate to the detailed card page
-    navigate(`/card/${card.id}`);
+    console.log(card);
+    alert(`Clicked on well ${card.name}!`);
   };
 
   return (
     <div className="card-list">
-      {cardsData.map((card) => (
-        <div
-          key={card.id}
-          className="card"
-          onClick={() => handleClick(card)} // Navigate when clicked
-        >
+      {wellData.map((card) => (
+        <div key={card.id} className="card" onClick={() => handleClick(card)}>
           <div className="progress-bar-container">
             <CircularProgressbar
               value={card.percentage}
@@ -57,10 +85,29 @@ const CardList = () => {
             />
           </div>
           <div className="card-values">
-            <p><strong>{card.name}</strong></p>
-            <p>Gas Injection: {card.value1}</p>
-            <p>Set Point: {card.value2}</p>
-            <p>Valve Open: {card.value3.toFixed(2)}</p>
+            <p>
+              <strong>{card.name}</strong>
+            </p>
+            <button className="value-button">{`Instant Volume: ${card.value1}`}</button>
+            <button className="value-button">{`Set Point Volume: ${card.value2}`}</button>
+            <button className="value-button">{`Nozzle Strength (%): ${card.value3}`}</button>
+            <button className="value-button">
+              {`Status of Nozzle: ${card.status_nozzle !== undefined ? String(card.status_nozzle) : "N/A"}`}
+            </button>
+            <button className="value-button">
+              {`Warning: ${card.status_pct_warn !== undefined ? String(card.status_pct_warn) : "N/A"}`}
+            </button>
+            <button className="value-button">
+              {`Hydrate Formation/Production Problem: ${card.status_pct_danger !== undefined ? String(card.status_pct_danger) : "N/A"}`}
+            </button>
+            <button className="value-button">{`Time: ${card.time}`}</button>
+
+            {/* Dynamic warning button */}
+            <button
+              className={`status-button ${getStatusClass(card.status_pct_warn, card.status_pct_danger)}`}
+            >
+              Warning Status
+            </button>
           </div>
         </div>
       ))}
