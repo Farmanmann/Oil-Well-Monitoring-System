@@ -6,3 +6,9 @@ test('renders learn react link', () => {
   const linkElement = screen.getByText(/learn react/i);
   expect(linkElement).toBeInTheDocument();
 });
+
+import React from "react";
+import ReactDOM from "react-dom";
+import CardList from "./CardList";
+
+ReactDOM.render(<CardList />, document.getElementById("root"));

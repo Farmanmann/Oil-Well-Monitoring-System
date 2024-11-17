@@ -1,0 +1,70 @@
+/* General page styling for a dark theme */
+body {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text for contrast */
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Container for the card list */
+  .card-list {
+    display: flex;
+    flex-direction: column; /* Stack cards vertically */
+    gap: 10px; /* Space between cards */
+    padding: 20px; /* Padding around the container */
+    justify-content: center; /* Center the cards horizontally */
+    width: 100%; /* Full width */
+    box-sizing: border-box;
+  }
+  
+  /* Individual card styles */
+  .card {
+    display: flex; /* Align circle and values horizontally */
+    justify-content: flex-start; /* Align items to the start (left) */
+    align-items: center; /* Vertically center the content */
+    border: 2px solid red; /* Red border */
+    border-radius: 8px;
+    padding: 16px;
+    width: calc(100% - 20px); /* Reduce width by 20px */
+    height: 200px; /* Fixed height */
+    background-color: #1e1e1e; /* Dark card background */
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    box-sizing: border-box; /* Ensure padding is part of the width */
+    margin: 0 auto; /* Center the card */
+  }
+  
+  /* Hover effect for the cards */
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.9);
+  }
+  
+  /* Progress bar container */
+  .card .progress-bar-container {
+    width: 100px; /* Fixed size for the progress circle */
+    height: 100px; /* Fixed height */
+    margin-right: 20px; /* Space between circle and values */
+  }
+  
+  /* Text styles inside the card */
+  .card .card-values {
+    display: flex;
+    flex-direction: column; /* Stack values vertically */
+    justify-content: center;
+    color: #e0e0e0; /* Light text color */
+  }
+  
+  /* Style for the text in each card */
+  .card .card-values p {
+    margin: 4px 0;
+    font-size: 14px;
+  }
+  
+  /* Bold text for the name */
+  .card .card-values p strong {
+    font-weight: bold;
+  }
+  
