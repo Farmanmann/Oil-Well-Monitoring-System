@@ -1,13 +1,13 @@
 import React from "react";
 import CardList from "./CardList";
+import WellMonitoringApp from "./WellMonitoringApp";
 
 function App() {
   return (
     <div className="App">
-      <CardList />
+      <WellMonitoringApp />
     </div>
   );
 }
 
 export default App;
-
