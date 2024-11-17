@@ -88,19 +88,18 @@ const CardList = () => {
             <p>
               <strong>{card.name}</strong>
             </p>
-            <button className="value-button">{`Instant Volume: ${card.value1}`}</button>
+            <button className="value-button">{`Instant Volume: ${(card.value1).toFixed(1)}`}</button>
             <button className="value-button">{`Set Point Volume: ${card.value2}`}</button>
             <button className="value-button">{`Nozzle Strength (%): ${card.value3}`}</button>
             <button className="value-button">
-              {`Status of Nozzle: ${card.status_nozzle !== undefined ? String(card.status_nozzle) : "N/A"}`}
+              {`Nozzle above 80%: ${card.status_nozzle !== undefined ? String(card.status_nozzle) : "N/A"}`}
             </button>
             <button className="value-button">
-              {`Warning: ${card.status_pct_warn !== undefined ? String(card.status_pct_warn) : "N/A"}`}
+              {`${card.time !== undefined ? String(card.time) : "N/A"}`}
             </button>
             <button className="value-button">
               {`Hydrate Formation/Production Problem: ${card.status_pct_danger !== undefined ? String(card.status_pct_danger) : "N/A"}`}
             </button>
-            <button className="value-button">{`Time: ${card.time}`}</button>
 
             {/* Dynamic warning button */}
             <button
