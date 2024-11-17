@@ -7,24 +7,29 @@ body {
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Ensure the logo appears at the top of the page */
-.App-header {
-  position: fixed; /* Fix the logo at the top */
+/* Header styling - make the header twice as wide and center the logo */
+header {
+  width: 100%; /* Use the full screen width */
+  display: flex;
+  justify-content: center; /* Center the logo horizontally */
+  align-items: center; /* Center the logo vertically */
+  padding: 10px 0; /* Add some vertical padding */
+  background-color: #121212; /* Dark background */
+  position: fixed; /* Keep the header fixed at the top */
   top: 0;
   left: 0;
-  width: 100%;
-  padding: 20px 0; /* Add padding to the header for spacing */
-  text-align: center;
-  z-index: 10; /* Keep the logo above the cards */
-  background-color: #121212; /* Same background color as the body */
+  z-index: 10;
+  height: 80px; /* Set the height of the header */
 }
 
-/* Styling for the logo */
+/* Styling for the logo - keep it the same size */
 .logo {
-  height: 60px; /* Resize the logo */
-  width: auto;
-  object-fit: contain; /* Ensure the logo maintains aspect ratio */
+  height: 60px; /* Adjust the height as needed */
+  width: auto; /* Maintain aspect ratio */
 }
+
+
+
 
 /* Card list container with margin-top to push below the fixed header */
 .card-list {
