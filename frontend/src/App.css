@@ -1,38 +1,40 @@
-.App {
-  text-align: center;
+/* General page styling */
+body {
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text for contrast */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
+/* Ensure the logo appears at the top of the page */
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  position: fixed; /* Fix the logo at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0; /* Add padding to the header for spacing */
+  text-align: center;
+  z-index: 10; /* Keep the logo above the cards */
+  background-color: #121212; /* Same background color as the body */
+}
+
+/* Styling for the logo */
+.logo {
+  height: 60px; /* Resize the logo */
+  width: auto;
+  object-fit: contain; /* Ensure the logo maintains aspect ratio */
+}
+
+/* Card list container with margin-top to push below the fixed header */
+.card-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+  margin-top: 100px; /* Space the cards below the header (adjustable) */
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
