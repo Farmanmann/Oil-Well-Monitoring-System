@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "react-circular-progressbar/dist/styles.css";
 import "./CardList.css"; // Import the updated CSS file
 
 const CardList = () => {
   const [cardsData, setCardsData] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Simulate loading data from multiple CSV files
   useEffect(() => {
@@ -30,7 +32,8 @@ const CardList = () => {
   }, []);
 
   const handleClick = (card) => {
-    alert(`Card ${card.name} clicked!`);
+    // Navigate to the detailed card page
+    navigate(`/card/${card.id}`);
   };
 
   return (
@@ -39,7 +42,7 @@ const CardList = () => {
         <div
           key={card.id}
           className="card"
-          onClick={() => handleClick(card)}
+          onClick={() => handleClick(card)} // Navigate when clicked
         >
           <div className="progress-bar-container">
             <CircularProgressbar
