@@ -35,3 +35,6 @@ This project is an **Oil Well Monitoring System** that streams real-time well da
 ### Visualization
 - Each card represents a well, showing metrics like instant volume, set volume, and nozzle strength.
 - Statuses (e.g., warning, danger) are visually indicated with colored labels.
+
+- `fastapi run main.py`
+- `npm start`
